@@ -80,7 +80,7 @@ const Footer = () => {
 				</nav>
 			</section>
 			<section className={styles.copyright}>
-				&copy; 2024 Boys Aid Network. All rights reserved.
+				&copy; 2025 The Secret Room. All rights reserved.
 			</section>
 			{/* <!-- Designed & developed by The Grand Gemini, 2025 --> */}
 		</footer>
