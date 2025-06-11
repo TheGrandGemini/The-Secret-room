@@ -1,0 +1,139 @@
+.footer {
+	width: 100%;
+	background: #fff;
+	color: #222;
+	margin: 0;
+	overflow-x: hidden;
+	box-sizing: border-box;
+	border-top: solid #d13706 1px;
+}
+
+.contact {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100vw;
+	padding: 0;
+	margin: 0;
+}
+
+.about-container,
+.contactInfo,
+.quickLinks {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	box-sizing: border-box;
+}
+
+.about-container {
+	padding: 2rem 2rem 2rem 4vw;
+	min-width: 260px;
+	max-width: 340px;
+}
+
+.about-container .logo {
+	width: 80px;
+	margin-bottom: 1rem;
+}
+
+.about-container p {
+	margin: 0 0 1.5rem 0;
+	font-size: 1.05rem;
+	line-height: 1.6;
+}
+
+.socials ul {
+	display: flex;
+	gap: 1.2rem;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.socials a {
+	color: #d13706;
+	font-size: 1.5rem;
+	transition: color 0.2s;
+	display: flex;
+	align-items: center;
+}
+
+.socials a:hover,
+.socials a:focus {
+	transform: scale(1.25);
+	transition: transform 0.2s;
+}
+
+.contactInfo,
+.quickLinks {
+	flex: 1 1 180px;
+	padding: 2rem 2vw;
+	min-width: 180px;
+}
+
+.contactInfo p,
+.quickLinks p {
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+	color: #d13706;
+}
+
+.contactInfo a {
+	color: #222;
+	text-decoration: none;
+	font-size: 1rem;
+	margin-bottom: 0.2rem;
+}
+
+.contactInfo a:hover,
+.contactInfo a:focus {
+	text-decoration: underline;
+}
+
+.quickLinks ul {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+.quickLinks a {
+	color: #222;
+	text-decoration: none;
+	transition: color 0.2s;
+	font-weight: 400;
+}
+
+.quickLinks a:hover,
+.quickLinks a:focus {
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+.copyright {
+	width: 100%;
+	text-align: center;
+	padding: 1rem 0 0.5rem 0;
+	font-size: 0.98rem;
+	color: #bbb;
+	letter-spacing: 0.03em;
+	background: #1a1a1a;
+	margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+	.contact {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+	}
+	.about-container,
+	.contactInfo,
+	.quickLinks {
+		max-width: 100vw;
+		min-width: 0;
+		padding: 1.5rem 5vw;
+	}
+}
