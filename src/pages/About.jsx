@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import styles from './About.module.css';
 import ph1 from '../assets/ph1.jpg';
@@ -12,12 +13,17 @@ const About = () => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setBgIndex((prev) => (prev + 1) % images.length);
-		}, 1000);
+		}, 3000);
 		return () => clearInterval(interval);
 	}, []);
 
 	return (
-		<section className={styles.aboutPage}>
+		<motion.section
+			className={styles.aboutPage}
+			initial={{ opacity: 0, y: 20, scale: 0.5 }}
+			animate={{ opacity: 1, y: 0, scale: 1 }}
+			exit={{ opacity: 0, y: -20, scale: 0.8 }}
+			transition={{ duration: 0.7 }}>
 			{/* Hero */}
 			<div
 				className={styles.aboutHero}
@@ -82,7 +88,7 @@ const About = () => {
 					<li>Responsibility</li>
 				</ul>
 			</div>
-		</section>
+		</motion.section>
 	);
 };
 

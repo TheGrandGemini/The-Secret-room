@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import styles from './Volunteer.module.css';
 import ph1 from '../assets/ph1.jpg';
@@ -13,12 +14,17 @@ const Volunteer = () => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setBgIndex((prev) => (prev + 1) % images.length);
-		}, 1000);
+		}, 3000);
 		return () => clearInterval(interval);
 	}, []);
 
 	return (
-		<section className={styles.volunteerSection}>
+		<motion.section
+			className={styles.volunteerSection}
+			initial={{ opacity: 0, y: 20, scale: 0.5 }}
+			animate={{ opacity: 1, y: 0, scale: 1 }}
+			exit={{ opacity: 0, y: -20, scale: 0.8 }}
+			transition={{ duration: 0.7 }}>
 			{/* Hero Section */}
 			<div
 				className={styles.volunteerHero}
@@ -66,7 +72,7 @@ const Volunteer = () => {
 					<button className={styles.ctaButton}>Sign Up to Volunteer</button>
 				</Link>
 			</div>
-		</section>
+		</motion.section>
 	);
 };
 

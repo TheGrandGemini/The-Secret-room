@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './Home.module.css';
 import ph1 from '../assets/ph1.jpg';
 import ph2 from '../assets/ph2.jpg';
@@ -32,16 +33,32 @@ const dummyBlogs = [
 
 const Home = () => {
 	const [bgIndex, setBgIndex] = useState(0);
+	const location = useLocation();
 
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setBgIndex((prev) => (prev + 1) % heroImages.length);
-		}, 1000);
+		}, 3000);
 		return () => clearInterval(interval);
 	}, []);
 
+	// Scroll to contact section if hash is present
+	useEffect(() => {
+		if (location.hash === '#contact') {
+			const el = document.getElementById('contact');
+			if (el) {
+				el.scrollIntoView({ behavior: 'smooth' });
+			}
+		}
+	}, [location]);
+
 	return (
-		<div className={styles.homePage}>
+		<motion.div
+			className={styles.homePage}
+			initial={{ opacity: 0, y: 20, scale: 0.5 }}
+			animate={{ opacity: 1, y: 0, scale: 1 }}
+			exit={{ opacity: 0, y: -20, scale: 0.8 }}
+			transition={{ duration: 0.7 }}>
 			{/* Hero Section */}
 			<section
 				className={styles.hero}
@@ -83,7 +100,12 @@ const Home = () => {
 			</section>
 
 			{/* Latest Blogs Section */}
-			<section className={styles.blogSection}>
+			<motion.section
+				className={styles.blogSection}
+				initial={{ opacity: 0, x: 100 }}
+				whileInView={{ opacity: 1, x: 0 }}
+				transition={{ duration: 0.6 }}
+				viewport={{ once: true, amount: 0.2 }}>
 				<h2 className={styles.sectionTitle}>Latest Blogs</h2>
 				<div className={styles.blogGrid}>
 					{dummyBlogs.map((blog) => (
@@ -104,8 +126,8 @@ const Home = () => {
 						</Link>
 					))}
 				</div>
-			</section>
-		</div>
+			</motion.section>
+		</motion.div>
 	);
 };
 
