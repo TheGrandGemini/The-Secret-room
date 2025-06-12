@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Blog.module.css';
+import { motion } from 'framer-motion';
 
 const blogs = [
 	{
@@ -29,7 +30,12 @@ const blogs = [
 ];
 
 const Blog = () => (
-	<section className={styles.blogSection}>
+	<motion.section
+		className={styles.blogSection}
+		initial={{ opacity: 0, y: 20, scale: 0.5 }}
+		animate={{ opacity: 1, y: 0, scale: 1 }}
+		exit={{ opacity: 0, y: -20, scale: 0.8 }}
+		transition={{ duration: 0.7 }}>
 		<h1 className={styles.blogTitle}>Our Blog</h1>
 		<div className={styles.blogGrid}>
 			{blogs.map((blog) => (
@@ -52,7 +58,7 @@ const Blog = () => (
 				</a>
 			))}
 		</div>
-	</section>
+	</motion.section>
 );
 
 export default Blog;

@@ -1,5 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	useLocation,
+} from 'react-router-dom';
 import './App.css';
 import Header from './components/UI/Header';
 import Footer from './components/UI/Footer';
@@ -10,11 +16,15 @@ import VolunteerForm from './components/Utilities/VolunteerForm';
 import Blog from './pages/Blog';
 import Gallery from './pages/Gallery';
 
-function App() {
+import ScrollToTop from './components/Utilities/ScrollToTop';
+
+function AnimatedRoutes() {
+	const location = useLocation();
 	return (
-		<Router>
-			<Header />
-			<Routes>
+		<AnimatePresence mode='wait'>
+			<Routes
+				location={location}
+				key={location.pathname}>
 				<Route
 					path='/'
 					element={<Home />}
@@ -39,11 +49,17 @@ function App() {
 					path='/gallery'
 					element={<Gallery />}
 				/>
-				{/* <Route
-					path='/contact'
-					element={<Contact />}
-				/> */}
 			</Routes>
+		</AnimatePresence>
+	);
+}
+
+function App() {
+	return (
+		<Router>
+			<ScrollToTop />
+			<Header />
+			<AnimatedRoutes />
 			<Footer />
 		</Router>
 	);

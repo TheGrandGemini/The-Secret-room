@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import styles from './Gallery.module.css';
 
 const placeholderImages = [
@@ -14,21 +15,29 @@ const placeholderImages = [
 
 const Gallery = () => {
 	return (
-		<section className={styles.gallerySection}>
+		<motion.section
+			className={styles.gallerySection}
+			initial={{ opacity: 0, y: 20, scale: 0.5 }}
+			animate={{ opacity: 1, y: 0, scale: 1 }}
+			exit={{ opacity: 0, y: -20, scale: 0.8 }}
+			transition={{ duration: 0.7 }}>
 			<h1 className={styles.galleryTitle}>Gallery</h1>
 			<div className={styles.galleryGrid}>
 				{placeholderImages.map((src, idx) => (
-					<div
+					<motion.div
 						className={styles.galleryItem}
-						key={idx}>
+						key={idx}
+						initial={{ opacity: 0, x: -500, y: -50 }}
+						animate={{ opacity: 1, x: 0, y: 0 }}
+						transition={{ duration: 0.6, delay: idx * 0.1 }}>
 						<img
 							src={src}
 							alt={`Gallery ${idx + 1}`}
 						/>
-					</div>
+					</motion.div>
 				))}
 			</div>
-		</section>
+		</motion.section>
 	);
 };
 
