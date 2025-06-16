@@ -87,7 +87,7 @@
 	display: flex;
 	gap: 4rem;
 	justify-content: space-evenly;
-	align-items: stretch;
+	align-items: center;
 	margin: 2.5rem 0;
 	flex-wrap: wrap;
 }
@@ -98,13 +98,92 @@
 	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
 	padding: 2rem 1.5rem;
 	flex: 1 1 320px;
-	max-width: 450px;
+	max-width: 500px;
 	min-width: 260px;
 	display: flex;
 	flex-direction: column;
 }
 
-@media (max-width: 900px) {
+.aboutSection {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 2.5rem 2rem;
+	background: #fff;
+	border-radius: 1rem;
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+}
+
+.aboutTitle {
+	font-size: 2rem;
+	font-weight: 700;
+	margin-bottom: 1.5rem;
+	text-align: center;
+}
+
+.aboutText {
+	font-size: 1.15rem;
+	color: #333;
+	line-height: 1.7;
+	margin-bottom: 1.5rem;
+}
+
+.aboutImage {
+	width: 100%;
+	max-width: 350px;
+	display: block;
+	margin: 2rem auto 1.5rem auto;
+	border-radius: 0.8rem;
+	object-fit: cover;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Tablet optimization */
+@media (max-width: 900px) and (min-width: 600px) {
+	.aboutSection {
+		padding: 2rem 1rem;
+		border-radius: 0.8rem;
+	}
+	.aboutTitle {
+		font-size: 1.5rem;
+	}
+	.aboutImage {
+		max-width: 250px;
+		border-radius: 0.7rem;
+	}
+	.aboutText {
+		font-size: 1.05rem;
+	}
+	.cardContainer {
+		flex-direction: row;
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.card {
+		width: 320px;
+	}
+
+	.valueSection {
+		margin: 3rem;
+	}
+}
+
+/* Mobile optimization */
+@media (max-width: 600px) {
+	.aboutSection {
+		padding: 1.2rem 0.5rem;
+		border-radius: 0.6rem;
+	}
+	.aboutTitle {
+		font-size: 1.15rem;
+	}
+	.aboutImage {
+		max-width: 98vw;
+		border-radius: 0.6rem;
+	}
+	.aboutText {
+		font-size: 0.98rem;
+	}
 	.cardContainer {
 		flex-direction: column;
 		gap: 1.5rem;
@@ -112,7 +191,7 @@
 	}
 
 	.card {
-		width: 400px;
+		width: 350px;
 	}
 	.aboutHero {
 		min-height: 220px;

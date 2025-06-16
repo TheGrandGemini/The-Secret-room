@@ -106,7 +106,7 @@
 
 .blogGrid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	gap: 2rem;
 }
 
@@ -128,8 +128,8 @@
 }
 
 .blogImage {
-	width: 100%;
-	height: 180px;
+	width: 700px;
+	height: auto;
 	object-fit: cover;
 }
 
@@ -159,13 +159,147 @@
 	font-weight: 600;
 	margin-top: auto;
 }
+.teamSection {
+	padding: 3rem 1rem;
+	text-align: center;
+}
 
-@media (max-width: 900px) {
-	.blogGrid {
-		grid-template-columns: 1fr 1fr;
+.teamCarousel {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 1rem;
+	max-width: 100%;
+	overflow-x: hidden;
+	/* position: relative; */
+}
+
+.profileCardWrapper {
+	position: relative;
+	width: 100%;
+	max-width: 320px;
+	min-height: 380px;
+}
+
+.profileCard {
+	background: #fff;
+	border-radius: 1rem;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	padding: 1.5rem;
+	width: 100%;
+	text-align: center;
+}
+
+.profileImage {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-bottom: 1rem;
+}
+
+.profileName {
+	font-size: 1.1rem;
+	font-weight: 600;
+	margin-bottom: 0.3rem;
+}
+
+.profilePosition,
+.profileInfo {
+	font-size: 0.95rem;
+	color: #666;
+}
+
+.arrowBtn {
+	background: transparent;
+	border: none;
+	font-size: 2rem;
+	cursor: pointer;
+	color: #d13706;
+	transition: transform 0.2s;
+	margin-top: -11rem;
+}
+
+.arrowBtn:hover {
+	transform: scale(1.1);
+}
+
+/* Responsive for tablet */
+
+@media (min-width: 601px) and (max-width: 900px) {
+	/* General Layout */
+	.homePage {
+		max-width: 100vw;
 	}
-	.heroOverlay {
-		padding: 2rem 1rem;
+
+	/* Blog Section */
+	.blogSection {
+		padding: 2.5rem 1rem;
+	}
+
+	.blogGrid {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.blogImage {
+		width: 780px;
+		height: auto;
+	}
+
+	.blogTitle {
+		font-size: 1.4rem;
+	}
+
+	.blogSnippet {
+		font-size: 1.2rem;
+	}
+
+	.readMore {
+		font-size: 1.2rem;
+	}
+
+	/* Team Section */
+	.teamSection {
+		padding: 2.5rem 1rem;
+	}
+
+	.teamCarousel {
+		flex-direction: row;
+		justify-content: center;
+		gap: 2rem;
+		flex-wrap: wrap;
+	}
+
+	.profileCardWrapper {
+		max-width: 80%;
+	}
+
+	.profileCard {
+		padding: 2rem 1.5rem;
+		text-align: center;
+	}
+
+	.profileImage {
+		width: 150px;
+		height: 150px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+
+	.profileName {
+		font-size: 1.5rem;
+	}
+
+	.profilePosition,
+	.profileInfo {
+		font-size: 1.4rem;
+	}
+
+	.arrowBtn {
+		/* display: none; */
 	}
 }
 
@@ -178,5 +312,23 @@
 	}
 	.blogImage {
 		height: 140px;
+	}
+	.blogImage {
+		width: 460px;
+		height: auto;
+	}
+
+	.arrowBtn {
+		display: none;
+	}
+	.profileCard {
+		padding: 2rem;
+	}
+	.profileImage {
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		object-fit: cover;
+		margin-bottom: 1rem;
 	}
 }
