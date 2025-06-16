@@ -1,64 +1,117 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Blog.module.css';
-import { motion } from 'framer-motion';
 
-const blogs = [
-	{
-		id: 1,
-		title: 'Empowering Boys: Our First Workshop',
-		snippet:
-			'Discover how our first workshop inspired confidence and leadership in young boys.',
-		image: 'https://via.placeholder.com/400x220?text=Blog+1',
-		url: 'https://medium.com/@yourprofile/first-workshop',
+const modalVariants = {
+	hidden: { opacity: 0, scale: 0.95, y: 40 },
+	visible: {
+		opacity: 1,
+		scale: 1,
+		y: 0,
+		transition: { duration: 0.25, ease: 'easeOut' },
 	},
-	{
-		id: 2,
-		title: 'Mentorship Matters',
-		snippet:
-			'Why mentorship is the key to raising responsible and resilient young men.',
-		image: 'https://via.placeholder.com/400x220?text=Blog+2',
-		url: 'https://x.com/yourprofile/status/123456789',
+	exit: {
+		opacity: 0,
+		scale: 0.95,
+		y: 40,
+		transition: { duration: 0.18, ease: 'easeIn' },
 	},
-	{
-		id: 3,
-		title: 'Community Impact Stories',
-		snippet:
-			'Read how our volunteers are making a difference in their communities.',
-		image: 'https://via.placeholder.com/400x220?text=Blog+3',
-		url: 'https://instagram.com/p/yourpostid',
-	},
-];
+};
 
-const Blog = () => (
-	<motion.section
-		className={styles.blogSection}
-		initial={{ opacity: 0, y: 20, scale: 0.5 }}
-		animate={{ opacity: 1, y: 0, scale: 1 }}
-		exit={{ opacity: 0, y: -20, scale: 0.8 }}
-		transition={{ duration: 0.7 }}>
-		<h1 className={styles.blogTitle}>Our Blog</h1>
-		<div className={styles.blogGrid}>
-			{blogs.map((blog) => (
-				<a
-					href={blog.url}
-					className={styles.blogCard}
-					key={blog.id}
-					target='_blank'
-					rel='noopener noreferrer'>
-					<img
-						src={blog.image}
-						alt={blog.title}
-						className={styles.blogImage}
-					/>
-					<div className={styles.blogContent}>
-						<h2 className={styles.cardTitle}>{blog.title}</h2>
-						<p className={styles.cardSnippet}>{blog.snippet}</p>
-						<span className={styles.readMore}>Read More &rarr;</span>
-					</div>
-				</a>
-			))}
-		</div>
-	</motion.section>
-);
+const Blog = ({ blogs }) => {
+	const [openBlog, setOpenBlog] = useState(null);
+
+	// Lock body scroll when modal is open
+	useEffect(() => {
+		if (openBlog) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = '';
+		}
+		// Clean up on unmount
+		return () => {
+			document.body.style.overflow = '';
+		};
+	}, [openBlog]);
+
+	const handleOpen = (blog) => setOpenBlog(blog);
+	const handleClose = () => setOpenBlog(null);
+
+	return (
+		<main className={styles.blogMain}>
+			<h1 className={styles.blogTitle}>Latest Blogs</h1>
+			<section
+				className={styles.blogGrid}
+				aria-label='Blog List'>
+				{blogs.map((blog) => (
+					<article
+						key={blog.id}
+						className={styles.blogCard}>
+						<button
+							className={styles.blogButton}
+							aria-haspopup='dialog'
+							aria-label={`Read full blog: ${blog.title}`}
+							onClick={() => handleOpen(blog)}>
+							{blog.img && (
+								<img
+									src={blog.img}
+									alt={blog.title}
+									className={styles.blogCardImage}
+								/>
+							)}
+							<h2 className={styles.cardTitle}>{blog.title}</h2>
+							<p className={styles.cardSnippet}>{blog.snippet}</p>
+							<span className={styles.readMore}>Read More &rarr;</span>
+						</button>
+					</article>
+				))}
+			</section>
+
+			<AnimatePresence>
+				{openBlog && (
+					<motion.div
+						className={styles.modalOverlay}
+						role='dialog'
+						aria-modal='true'
+						aria-labelledby='modal-title'
+						tabIndex={-1}
+						onClick={handleClose}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{ duration: 0.18 }}>
+						<motion.div
+							className={styles.modalContent}
+							onClick={(e) => e.stopPropagation()}
+							tabIndex={0}
+							variants={modalVariants}
+							initial='hidden'
+							animate='visible'
+							exit='exit'>
+							<div className={styles.modalHeader}>
+								<button
+									className={styles.closeButton}
+									aria-label='Close blog'
+									onClick={handleClose}
+									autoFocus>
+									&times;
+								</button>
+							</div>
+							<h2
+								id='modal-title'
+								className={styles.modalTitle}>
+								{openBlog.title}
+							</h2>
+							<div
+								className={styles.modalBody}
+								dangerouslySetInnerHTML={{ __html: openBlog.content }}
+							/>
+						</motion.div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</main>
+	);
+};
 
 export default Blog;

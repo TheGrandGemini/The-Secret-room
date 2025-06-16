@@ -1,20 +1,19 @@
-.blogSection {
-	padding: 2.5rem 1rem 3rem 1rem;
-	max-width: 1200px;
+.blogMain {
+	max-width: 900px;
 	margin: 0 auto;
+	padding: 2rem 1rem;
 }
 
 .blogTitle {
-	text-align: center;
 	font-size: 2.2rem;
-	font-weight: bold;
-	color: #d13706;
-	margin-bottom: 2.5rem;
+	font-weight: 700;
+	margin-bottom: 2rem;
+	text-align: center;
 }
 
 .blogGrid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 	gap: 2rem;
 }
 
@@ -22,63 +21,232 @@
 	background: #fff;
 	border-radius: 1rem;
 	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+	transition: box-shadow 0.2s;
 	overflow: hidden;
-	text-decoration: none;
-	color: inherit;
-	display: flex;
-	flex-direction: column;
-	transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.blogCard:hover {
-	transform: translateY(-4px) scale(1.03);
-	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.13);
-}
-
-.blogImage {
+.blogButton {
+	background: none;
+	border: none;
 	width: 100%;
-	height: 180px;
-	object-fit: cover;
+	text-align: left;
+	padding: 2rem 1.5rem;
+	cursor: pointer;
+	outline: none;
+	display: block;
 }
 
-.blogContent {
-	padding: 1.2rem 1.2rem 1.5rem 1.2rem;
-	display: flex;
-	flex-direction: column;
-	flex: 1;
+.blogButton:focus,
+.blogButton:hover {
+	background: #f5f7fa;
 }
 
 .cardTitle {
-	font-size: 1.2rem;
-	font-weight: bold;
-	margin-bottom: 0.5rem;
-	color: #d13706;
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-bottom: 0.7rem;
+	color: #222;
 }
 
 .cardSnippet {
 	font-size: 1rem;
-	color: #444;
-	margin-bottom: 1rem;
+	color: #555;
+	margin-bottom: 1.2rem;
 }
 
 .readMore {
-	font-size: 0.98rem;
 	color: #ffb300;
-	font-weight: 600;
-	margin-top: auto;
+	font-weight: 500;
+	font-size: 1rem;
 }
 
-@media (max-width: 900px) {
+.modalOverlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.45);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	animation: fadeIn 0.2s;
+	padding: 0.5rem;
+	overflow-y: auto;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.modalContent {
+	background: #fff;
+	border-radius: 1rem;
+	max-width: 600px;
+	width: 95vw;
+	max-height: 90vh;
+	overflow-y: auto;
+	padding: 2.5rem 2rem 2rem 2rem;
+	position: relative;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+	animation: modalPop 0.25s;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
+}
+
+@keyframes modalPop {
+	from {
+		transform: translateY(40px) scale(0.97);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0) scale(1);
+		opacity: 1;
+	}
+}
+
+.modalHeader {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin-bottom: 0.5rem;
+}
+
+.closeButton {
+	background: linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%);
+	border: none;
+	border-radius: 50%;
+	width: 2.5rem;
+	height: 2.5rem;
+	font-size: 2rem;
+	color: #fff;
+	cursor: pointer;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+	outline: none;
+}
+
+.closeButton:hover,
+.closeButton:focus {
+	background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
+	transform: scale(1.12) rotate(8deg);
+	box-shadow: 0 4px 16px rgba(255, 95, 109, 0.18);
+}
+
+.closeButton:active {
+	background: linear-gradient(135deg, #ff5e62 0%, #ff9966 100%);
+	transform: scale(0.96) rotate(-8deg);
+}
+
+.modalTitle {
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-bottom: 1.2rem;
+	color: #222;
+}
+
+.modalBody {
+	font-size: 1.08rem;
+	color: #333;
+	line-height: 1.7;
+}
+
+.modalBody h2,
+.modalBody h3 {
+	margin-top: 1.5em;
+	margin-bottom: 0.7em;
+	color: #0077cc;
+}
+
+.modalBody ul {
+	margin: 1em 0 1em 1.5em;
+	padding: 0;
+}
+
+.modalBody li {
+	margin-bottom: 0.5em;
+}
+
+.blogCardImage {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 0.7rem 0.7rem 0 0;
+	margin-bottom: 1rem;
+	display: block;
+}
+
+.modalImage {
+	width: 100%;
+	max-height: 260px;
+	object-fit: cover;
+	border-radius: 0.7rem;
+	margin-bottom: 1.2rem;
+	display: block;
+}
+
+@media (max-width: 900px) and (min-width: 600px) {
 	.blogGrid {
 		grid-template-columns: 1fr 1fr;
+		gap: 1.2rem;
+	}
+	.blogCard {
+		border-radius: 0.8rem;
+	}
+	.blogCardImage {
+		width: 380px;
+		border-radius: 0.8rem;
+	}
+	.modalContent {
+		max-width: 90vw;
+		padding: 1.5rem 1rem 1.2rem 1rem;
+		border-radius: 0.8rem;
+	}
+	.modalImage {
+		max-height: 180px;
+		border-radius: 0.8rem;
+	}
+	.closeButton {
+		width: 2rem;
+		height: 2rem;
+		font-size: 1.3rem;
+		top: 0.7rem;
+		right: 0.7rem;
 	}
 }
 
 @media (max-width: 600px) {
 	.blogGrid {
 		grid-template-columns: 1fr;
+		gap: 0.7rem;
 	}
-	.blogImage {
-		height: 140px;
+	.blogCard {
+		border-radius: 0.6rem;
+	}
+	.blogCardImage {
+		width: 380px;
+		border-radius: 0.6rem;
+	}
+	.modalContent {
+		max-width: 98vw;
+		padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+		border-radius: 0.7rem;
+	}
+	.modalImage {
+		max-height: 120px;
+		border-radius: 0.7rem;
+	}
+	.closeButton {
+		width: 1.7rem;
+		height: 1.7rem;
+		font-size: 1.1rem;
+		top: 0.5rem;
+		right: 0.5rem;
 	}
 }

@@ -1,39 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Home.module.css';
 import ph1 from '../assets/ph1.jpg';
 import ph2 from '../assets/ph2.jpg';
+import obasegunImg from '../assets/Obasegun.jpg';
+import maryImg from '../assets/Mary.jpg';
+import ayomideImg from '../assets/Ayomide.jpg';
+import adeniranImg from '../assets/Adeniran.jpg';
+import abdullahImg from '../assets/Abdullah.jpg';
 
 const heroImages = [ph1, ph2];
 
-const dummyBlogs = [
+const teamMembers = [
 	{
-		id: 1,
-		title: 'Empowering Boys: Our First Workshop',
-		snippet:
-			'Discover how our first workshop inspired confidence and leadership in young boys.',
-		image: 'https://via.placeholder.com/400x220?text=Blog+1',
+		name: 'Akinmoladun Obasegun Martin',
+		position: 'Founder, The Secret Room',
+		image: obasegunImg,
+		info: 'Founder, DYP',
 	},
 	{
-		id: 2,
-		title: 'Mentorship Matters',
-		snippet:
-			'Why mentorship is the key to raising responsible and resilient young men.',
-		image: 'https://via.placeholder.com/400x220?text=Blog+2',
+		name: 'Odeleke Mary Iyanuoluwa',
+		position: 'Program Coordinator',
+		image: maryImg,
+		info: 'Self Improvement Advocate',
 	},
 	{
-		id: 3,
-		title: 'Community Impact Stories',
-		snippet:
-			'Read how our volunteers are making a difference in their communities.',
-		image: 'https://via.placeholder.com/400x220?text=Blog+3',
+		name: 'Oyedokun Ayomide Christinah',
+		position: 'Content and Production',
+		image: ayomideImg,
+		info: 'Nursing Student, Lautech',
+	},
+	{
+		name: 'Adeniran Jesutoba Emmanuel',
+		position: 'Financing and Partnership',
+		image: adeniranImg,
+		info: 'Founder, Nerge Network',
+	},
+	{
+		name: 'Abdulrazaq Abdullahi Oladeji',
+		position: 'Publicity Lead',
+		image: abdullahImg,
+		info: 'Founder, Health Busca',
 	},
 ];
 
-const Home = () => {
+const variants = {
+	enter: (direction) => ({
+		x: direction > 0 ? 300 : -300,
+		opacity: 0,
+		position: 'absolute',
+	}),
+	center: {
+		x: 0,
+		opacity: 1,
+		position: 'relative',
+	},
+	exit: (direction) => ({
+		x: direction < 0 ? 300 : -300,
+		opacity: 0,
+		position: 'absolute',
+	}),
+};
+
+const Home = ({ blogs }) => {
 	const [bgIndex, setBgIndex] = useState(0);
+	const [currentTeamIdx, setCurrentTeamIdx] = useState(0);
+	const [direction, setDirection] = useState(0);
 	const location = useLocation();
+	const timerRef = useRef();
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -52,16 +87,45 @@ const Home = () => {
 		}
 	}, [location]);
 
+	useEffect(() => {
+		timerRef.current = setInterval(() => {
+			setDirection(1);
+			setCurrentTeamIdx((prev) =>
+				prev === teamMembers.length - 1 ? 0 : prev + 1
+			);
+		}, 5000);
+		return () => clearInterval(timerRef.current);
+	}, []);
+
+	const handlePrev = () => {
+		clearInterval(timerRef.current);
+		setDirection(-1);
+		setCurrentTeamIdx((prev) =>
+			prev === 0 ? teamMembers.length - 1 : prev - 1
+		);
+	};
+
+	const handleNext = () => {
+		clearInterval(timerRef.current);
+		setDirection(1);
+		setCurrentTeamIdx((prev) =>
+			prev === teamMembers.length - 1 ? 0 : prev + 1
+		);
+	};
+
+	const currentMember = teamMembers[currentTeamIdx];
+
 	return (
-		<motion.div
+		<motion.main
 			className={styles.homePage}
 			initial={{ opacity: 0, y: 20, scale: 0.5 }}
 			animate={{ opacity: 1, y: 0, scale: 1 }}
 			exit={{ opacity: 0, y: -20, scale: 0.8 }}
 			transition={{ duration: 0.7 }}>
+			{/* <main className={styles.homeMain}> */}
 			{/* Hero Section */}
 			<section
-				className={styles.hero}
+				className={styles.heroSection}
 				style={{
 					backgroundImage: `url(${heroImages[bgIndex]})`,
 					backgroundSize: 'cover',
@@ -108,13 +172,13 @@ const Home = () => {
 				viewport={{ once: true, amount: 0.2 }}>
 				<h2 className={styles.sectionTitle}>Latest Blogs</h2>
 				<div className={styles.blogGrid}>
-					{dummyBlogs.map((blog) => (
+					{blogs.slice(0, 3).map((blog) => (
 						<Link
-							to={`/blog/${blog.id}`}
+							to={`/blog`}
 							className={styles.blogCard}
 							key={blog.id}>
 							<img
-								src={blog.image}
+								src={blog.img}
 								alt={blog.title}
 								className={styles.blogImage}
 							/>
@@ -127,7 +191,57 @@ const Home = () => {
 					))}
 				</div>
 			</motion.section>
-		</motion.div>
+
+			{/* Team Section */}
+			<section
+				className={styles.teamSection}
+				aria-label='Meet the Team'>
+				<h2 className={styles.sectionTitle}>Meet Our Team</h2>
+				<div className={styles.teamCarousel}>
+					<button
+						className={styles.arrowBtn}
+						onClick={handlePrev}
+						aria-label='Previous team member'>
+						&#8592;
+					</button>
+					<AnimatePresence
+						custom={direction}
+						mode='wait'>
+						<div className={styles.profileCardWrapper}>
+							<motion.div
+								key={currentTeamIdx}
+								className={styles.profileCard}
+								custom={direction}
+								variants={variants}
+								initial='enter'
+								animate='center'
+								exit='exit'
+								transition={{
+									x: { type: 'spring', stiffness: 400, damping: 30 },
+									opacity: { duration: 0.2 },
+								}}>
+								<img
+									src={currentMember.image}
+									alt={currentMember.name}
+									className={styles.profileImage}
+								/>
+								<h3 className={styles.profileName}>{currentMember.name}</h3>
+								<p className={styles.profilePosition}>
+									{currentMember.position}
+								</p>
+								<p className={styles.profileInfo}>{currentMember.info}</p>
+							</motion.div>
+						</div>
+					</AnimatePresence>
+					<button
+						className={styles.arrowBtn}
+						onClick={handleNext}
+						aria-label='Next team member'>
+						&#8594;
+					</button>
+				</div>
+			</section>
+		</motion.main>
 	);
 };
 
